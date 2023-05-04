@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:music_app/screens/widgets/bottom_nav_bar.dart';
 
 class SplashScreen extends StatefulWidget {
+  
   const SplashScreen({super.key});
 
   @override
