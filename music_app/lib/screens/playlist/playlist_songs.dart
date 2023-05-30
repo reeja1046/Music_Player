@@ -37,7 +37,7 @@ class _PlaylistSongsState extends State<PlaylistSongs> {
                       borderRadius: BorderRadius.circular(10),
                       image: const DecorationImage(
                         fit: BoxFit.fill,
-                        image: AssetImage('assets/images/Kangal.jpeg'),
+                        image: AssetImage('assets/images/All_songs_logo.jpeg'),
                       ),
                     ),
                   ),

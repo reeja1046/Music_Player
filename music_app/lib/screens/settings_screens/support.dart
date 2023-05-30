@@ -18,22 +18,16 @@ class Support extends StatelessWidget {
         padding: const EdgeInsets.all(10.0),
         child: Center(
           child: Column(
-            children: [
-              const Text(
+            children:const [
+               Text(
                 'Any customer related queriess ???',
                 style: TextStyle(color: Colors.teal, fontSize: 18),
               ),
-              const Text(
+               Text(
                 'Contact us : +91 6544813541',
                 style: TextStyle(color: Colors.teal, fontSize: 16),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 550),
-                child: Text(
-                  'Version 3.6.4.0.2',
-                  style: TextStyle(color: Colors.grey.shade800, fontSize: 18),
-                ),
-              )
+            
             ],
           ),
         ),

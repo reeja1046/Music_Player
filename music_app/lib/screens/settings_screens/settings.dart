@@ -18,9 +18,9 @@ class _MainSettingsState extends State<MainSettings> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text(
+        title:const Text(
           'Settings',
-          style: TextStyle(color: Colors.teal, fontSize: 20),
+          style: TextStyle(color: Colors.teal, fontSize: 25),
         ),
       ),
       body: SafeArea(
@@ -32,41 +32,30 @@ class _MainSettingsState extends State<MainSettings> {
                 ' Terms & Conditions ',
                 style: TextStyle(color: Colors.teal, fontSize: 18),
               ),
-              trailing: Icon(
+              trailing:const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.teal,
                 size: 18,
               ),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => TermsAndConditions()));
+                    builder: (context) => const TermsAndConditions()));
               },
             ),
-            // ListTile(
-            //   title: const Text(
-            //     ' Settings ',
-            //     style: TextStyle(color: Colors.teal, fontSize: 18),
-            //   ),
-            //   trailing: Icon(
-            //     Icons.arrow_forward_ios_rounded,
-            //     color: Colors.teal,
-            //     size: 18,
-            //   ),
-            //   onTap: () {},
-            // ),
+          
             ListTile(
               title: const Text(
                 ' About Us ',
                 style: TextStyle(color: Colors.teal, fontSize: 18),
               ),
-              trailing: Icon(
+              trailing:const Icon(
                 Icons.arrow_forward_ios_rounded,
                 color: Colors.teal,
                 size: 18,
               ),
               onTap: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => AboutUs()));
+                    .push(MaterialPageRoute(builder: (context) =>const AboutUs()));
               },
             ),
             ListTile(
@@ -81,7 +70,7 @@ class _MainSettingsState extends State<MainSettings> {
               ),
               onTap: () {
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+                    MaterialPageRoute(builder: (context) =>const PrivacyPolicy()));
               },
             ),
             ListTile(
@@ -96,7 +85,7 @@ class _MainSettingsState extends State<MainSettings> {
               ),
               onTap: () {
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => Support()));
+                    .push(MaterialPageRoute(builder: (context) =>const Support()));
               },
             ),
           ],

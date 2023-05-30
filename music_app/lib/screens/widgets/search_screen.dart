@@ -1,73 +1,109 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_app/database/functions/db_functions.dart';
+import 'package:music_app/database/model/song_model.dart';
+import 'package:music_app/screens/home_screens/bottom_nav_bar.dart';
+import 'package:music_app/screens/widgets/main_play_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  SearchScreen({super.key});
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  List<Song> songList = Hive.box<Song>(boxname).values.toList();
+
+  late List<Song> songDisplay = List<Song>.from(songList);
+
+  final textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.teal.shade800,
-                Colors.teal.shade700,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back_ios_new),
+            onPressed: () {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => BottomNavBar()));
+            },
+          ),
+          title: Container(
+            width: double.infinity,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            child: Center(
+              child: TextField(
+                onChanged: (value) => updateList(value),
+                controller: textController,
+                decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.search),
+                    suffixIcon: IconButton(
+                        icon: const Icon(Icons.clear),
+                        onPressed: () {
+                          textController.clear();
+                        }),
+                    hintText: 'Search...',
+                    border: InputBorder.none),
+              ),
             ),
-          ),
-        ),
-        title: TextField(
-          style: const TextStyle(color: Colors.black),
-          cursorColor: Colors.black,
-          decoration: const InputDecoration(
-            hintText: 'Search...',
-            hintStyle: TextStyle(color: Colors.black38),
-            border: InputBorder.none,
-          ),
-          onChanged: (value) {},
-        ),
-      ),
-      body: Container(
-        height: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-          Colors.teal.shade800,
-          Colors.grey.shade900,
-        ])),
-        child: ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 5,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Container(
-                width: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/Kangal.jpeg'),
+          )),
+      body: Padding(
+        padding: const EdgeInsets.all(10),
+        child: ValueListenableBuilder(
+          valueListenable: songListNotifier,
+          builder: (BuildContext ctx, List<Song> songList, Widget? child) {
+            return ListView.separated(
+              itemBuilder: (ctx, index) {
+                final data = songDisplay[index];
+
+                return ListTile(
+                  leading: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: const DecorationImage(
+                          image: AssetImage('assets/images/Song_logo.jpeg')),
+                    ),
+                    height: 50,
+                    width: 50,
                   ),
-                ),
-              ),
-              title: const Text(
-                'Kangal Neeye',
-                style: TextStyle(fontSize: 16, color: Colors.black),
-              ),
-              subtitle: const Text('Sithara',
-                  style: TextStyle(fontSize: 14, color: Colors.black)),
+                  onTap: () {
+                    final updatedIndex = songList.indexWhere(
+                        (element) => element.title == songDisplay[index].title);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NowPlaying(
+                                index: updatedIndex,
+                              )),
+                    );
+                  },
+                  title: Text(
+                    data.title!,
+                    style: TextStyle(color: Colors.white),
+                  ),
+                );
+              },
+              separatorBuilder: (ctx, index) {
+                return const Divider();
+              },
+              itemCount: songDisplay.length,
             );
           },
         ),
       ),
     );
+  }
+
+  updateList(String value) {
+    setState(() {
+      songDisplay = songList
+          .where((element) =>
+              element.title!.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
   }
 }

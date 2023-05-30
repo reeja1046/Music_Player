@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/screens/playlist/playlist_songs.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:music_app/database/functions/db_functions.dart';
+import 'package:music_app/database/model/song_model.dart';
+import 'package:music_app/screens/home_screens/library/favourite_list.dart';
+import 'package:music_app/screens/widgets/appbar_widget.dart';
 
 class Playlist extends StatefulWidget {
   const Playlist({super.key});
@@ -9,76 +13,65 @@ class Playlist extends StatefulWidget {
 }
 
 class _PlaylistState extends State<Playlist> {
+  final box = FavBox.getinstance();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        title: const Text(
-          'Playlist ',
-          style: TextStyle(color: Colors.teal, fontSize: 25),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              const ScreenAppbarWidget(title: 'Playlists'),
+              // Expanded(
+              //   child: ValueListenableBuilder<Box<FavSongs>>(
+              //       valueListenable: box.listenable(),
+              //       builder: (context, Box<FavSongs> favouritesdb, child) {
+              //         List<FavSongs> favitemsongs =
+              //             favouritesdb.values.toList().reversed.toList();
+              //         return favitemsongs.isNotEmpty
+              //             ? ListView.separated(
+              //                 padding: const EdgeInsets.only(left: 4, right: 4),
+              //                 itemBuilder: (context, index) => Favouritelist(
+              //                     song: favitemsongs[index],
+              //                     songlist: favitemsongs,
+              //                     index: index),
+              //                 itemCount: favitemsongs.length,
+              //                 separatorBuilder: (context, index) {
+              //                   return SizedBox(
+              //                     height:
+              //                         MediaQuery.of(context).size.height * 0.01,
+              //                   );
+              //                 },
+              //               )
+              //             : Column(
+              //                 mainAxisAlignment: MainAxisAlignment.center,
+              //                 children: [
+              //                   const Icon(
+              //                     Icons.heart_broken_sharp,
+              //                     color: Colors.white,
+              //                     size: 50,
+              //                   ),
+              //                   SizedBox(
+              //                     height:
+              //                         MediaQuery.of(context).size.height * 0.02,
+              //                   ),
+              //                   const Text(
+              //                     "You haven't liked any Songs",
+              //                     style: TextStyle(
+              //                         color: Colors.white, fontSize: 18),
+              //                   ),
+              //                 ],
+              //               );
+              //       }),
+              // ),
+            ],
+          ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: SafeArea(
-              child: Column(
-            children: [
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: Container(
-                      width: 50,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        image: const DecorationImage(
-                          fit: BoxFit.fill,
-                          image: AssetImage('assets/images/perfect.jpeg'),
-                        ),
-                      ),
-                    ),
-                    trailing: PopupMenuButton(
-                      itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-                        PopupMenuItem(
-                          child: TextButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.edit),
-                            label: const Text('Edit Playlist'),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          child: TextButton.icon(
-                            onPressed: () {},
-                            icon: const Icon(Icons.delete),
-                            label: const Text('Delete Playlist'),
-                          ),
-                        ),
-                      ],
-                      icon: const Icon(
-                        Icons.more_vert,
-                        color: Colors.teal,
-                      ),
-                    ),
-                    title: const Text(
-                      'Mind relaxing',
-                      style: TextStyle(fontSize: 18, color: Colors.teal),
-                    ),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const PlaylistSongs()));
-                    },
-                  );
-                },
-              ),
-            ],
-          )),
-        ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.playlist_add),
       ),
     );
   }

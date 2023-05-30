@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/screens/playlist/playlist.dart';
 
 class CreatePlaylist extends StatelessWidget {
   const CreatePlaylist({super.key});
