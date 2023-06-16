@@ -42,10 +42,10 @@ class _RecentlyPlayedScreenState extends State<RecentlyPlayedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -125,6 +125,7 @@ class RecentlyListView extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
             child: ListView.separated(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: recentdbsongs.length,
               itemBuilder: (context, index) {
                 if (index == recentdbsongs.length) {

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:music_app/screens/settings_screens/privacy_policy.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MainSettings extends StatefulWidget {
   const MainSettings({super.key});
@@ -38,7 +39,9 @@ class _MainSettingsState extends State<MainSettings> {
                 color: Colors.white,
                 size: 18,
               ),
-              onTap: () {},
+              onTap: () {
+                aboutUsPopUp();
+              },
             ),
             ListTile(
               title: const Text(
@@ -55,21 +58,6 @@ class _MainSettingsState extends State<MainSettings> {
                     builder: (context) => const PrivacyPolicy()));
               },
             ),
-            // ListTile(
-            //   title: const Text(
-            //     ' Terms & Conditions ',
-            //     style: TextStyle(color: Colors.white, fontSize: 18),
-            //   ),
-            //   trailing: const Icon(
-            //     Icons.arrow_forward_ios_rounded,
-            //     color: Colors.white,
-            //     size: 18,
-            //   ),
-            //   onTap: () {
-            //     Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (context) => const TermsAndConditions()));
-            //   },
-            // ),
             ListTile(
               title: const Text(
                 ' Share ',
@@ -80,7 +68,9 @@ class _MainSettingsState extends State<MainSettings> {
                 color: Colors.white,
                 size: 18,
               ),
-              onTap: () {},
+              onTap: () {
+                Share.share('hai ne mooonji!!!!!!!!!!!');
+              },
             ),
             ListTile(
               title: const Text(
@@ -100,5 +90,32 @@ class _MainSettingsState extends State<MainSettings> {
         ),
       ),
     );
+  }
+
+  aboutUsPopUp() {
+    final widthDsp = MediaQuery.of(context).size.width;
+    final heightDsp = MediaQuery.of(context).size.height;
+    showAboutDialog(
+        context: context,
+        applicationIcon: Container(
+          height: heightDsp * 0.09,
+          width: widthDsp * 0.18,
+          decoration: const BoxDecoration(
+            image:
+                DecorationImage(image: AssetImage('assets/images/Chillax.png')),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+        ),
+        applicationName: "ChillaX",
+        applicationVersion: '1.0.0',
+        applicationLegalese: 'Copyright © 2023 ChillaX',
+        children: [
+          const Text(
+              "ChillaX is an offline music player app which allows user to hear music from their storage and also do functions like add to favorites , create playlists , recently played , mostly played etc."),
+          SizedBox(
+            height: heightDsp * 0.02,
+          ),
+          const Text("App developed by : \nReeja Grace Sabu.")
+        ]);
   }
 }

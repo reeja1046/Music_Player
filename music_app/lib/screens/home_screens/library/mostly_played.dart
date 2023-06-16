@@ -8,6 +8,8 @@ import 'package:music_app/screens/playlist/create_playlist.dart';
 import 'package:music_app/screens/widgets/appbar_widget.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
+import '../../widgets/main_play_screen.dart';
+
 class MostlyPlayedScreen extends StatefulWidget {
   const MostlyPlayedScreen({super.key});
 
@@ -39,10 +41,10 @@ class _MostlyPlayedScreenState extends State<MostlyPlayedScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
@@ -65,8 +67,8 @@ class _MostlyPlayedScreenState extends State<MostlyPlayedScreen> {
                                       },
                                       child: const Text('Cancel')),
                                   ElevatedButton(
-                                      onPressed: () async {
-                                        await mostlyplayeddb.clear();
+                                      onPressed: () {
+                                        mostlyplayeddb.clear();
                                         mostdbsongs.clear();
                                         setState(() {});
                                         Navigator.of(ctx).pop();
@@ -117,8 +119,9 @@ class MostlyPlayedSongs extends StatelessWidget {
           )
         : Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
-            child: ListView.builder(
+            child: ListView.separated(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: mostlydbsongs.length,
               itemBuilder: (context, index) {
                 if (index == mostlydbsongs.length) {
@@ -128,6 +131,7 @@ class MostlyPlayedSongs extends StatelessWidget {
                 }
                 MostlyPlayed currentSong = mostlydbsongs[index];
                 return ListTile(
+                  tileColor: Colors.black,
                   onTap: () {
                     MostlyPlayed mostlySong;
                     mostlySong = MostlyPlayed(
@@ -147,8 +151,11 @@ class MostlyPlayedSongs extends StatelessWidget {
                             HeadPhoneStrategy.pauseOnUnplugPlayOnPlug,
                         loopMode: LoopMode.playlist);
 
-                    // Navigator.of(context).push(MaterialPageRoute(
-                    //     builder: (context) => NowPlaying(index: index)));
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NowPlaying(
+                              index: index,
+                              nowPlayList: mostlydbsongs,
+                            )));
                   },
                   leading: QueryArtworkWidget(
                     artworkFit: BoxFit.cover,
@@ -164,7 +171,8 @@ class MostlyPlayedSongs extends StatelessWidget {
                         borderRadius: BorderRadius.all(Radius.circular(10)),
                         image: DecorationImage(
                             fit: BoxFit.cover,
-                            image: AssetImage('assets/images/Song_logo1.jpeg')),
+                            image: AssetImage(
+                                'assets/images/All_songs_logo.jpeg')),
                       ),
                     ),
                   ),
@@ -257,6 +265,7 @@ class MostlyPlayedSongs extends StatelessWidget {
                   ),
                 );
               },
+              separatorBuilder: (context, index) => const Divider(height: 10),
             ),
           );
   }

@@ -1,9 +1,9 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee_widget/marquee_widget.dart';
 import 'package:music_app/database/functions/db_func.dart';
 import 'package:music_app/database/functions/db_functions.dart';
 import 'package:music_app/database/model/song_model.dart';
-import 'package:music_app/screens/playlist/add_to_playlist.dart';
 import 'package:music_app/screens/widgets/main_play_screen.dart';
 import 'package:music_app/screens/widgets/search_screen.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -239,12 +239,19 @@ class _EachPlaylistSongsState extends State<EachPlaylistSongs> {
                                       MediaQuery.of(context).size.height * 0.07,
                                 ),
                               ),
-                              title: Text(
-                                playlistSongs[index].title!,
-                                style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white),
+                              title: Marquee(
+                                animationDuration:
+                                    const Duration(milliseconds: 6500),
+                                directionMarguee: DirectionMarguee.oneDirection,
+                                pauseDuration:
+                                    const Duration(milliseconds: 1000),
+                                child: Text(
+                                  playlistSongs[index].title!,
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white),
+                                ),
                               ),
                               subtitle:
                                   playlistSongs[index].artist == '<unknown>'

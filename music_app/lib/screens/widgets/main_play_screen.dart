@@ -3,12 +3,9 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:marquee_widget/marquee_widget.dart';
-import 'package:music_app/database/functions/fav_db_functions.dart';
-import 'package:music_app/screens/home_screens/library/favourites.dart';
 import 'package:music_app/screens/playlist/create_playlist.dart';
+import 'package:music_app/screens/widgets/appbar_widget.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-
-import '../../database/functions/db_functions.dart';
 import '../../database/model/song_model.dart';
 
 class NowPlaying extends StatefulWidget {
@@ -30,7 +27,17 @@ AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 ValueNotifier<bool> scrollNotifier = ValueNotifier(true);
 
 class _NowPlayingState extends State<NowPlaying> {
+  final box = SongBox.getinstance();
+  late List<Song> allDbSongs;
   double progress = 0.0;
+
+  @override
+  void initState() {
+    allDbSongs = box.values.toList();
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return audioPlayer.builderCurrent(
@@ -76,8 +83,9 @@ class _NowPlayingState extends State<NowPlaying> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
                                     image: const DecorationImage(
-                                        image: AssetImage(
-                                            'assets/images/All_songs_logo.jpeg')),
+                                      image: AssetImage(
+                                          'assets/images/All_songs_logo.jpeg'),
+                                    ),
                                   ),
                                   height:
                                       MediaQuery.of(context).size.height * 1.0,
@@ -110,6 +118,24 @@ class _NowPlayingState extends State<NowPlaying> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      AppBar(
+                                        leading: IconButton(
+                                            onPressed: () async {
+                                              await audioPlayer.pause();
+                                              Navigator.pop(context);
+                                            },
+                                            icon: const Icon(Icons.arrow_back)),
+                                        backgroundColor: const Color.fromARGB(
+                                            255, 1, 30, 56),
+                                        centerTitle: true,
+                                        title: const Text(
+                                          'Now Playing',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
+                                      ),
                                       SizedBox(
                                           height: MediaQuery.of(context)
                                                   .size
@@ -148,12 +174,13 @@ class _NowPlayingState extends State<NowPlaying> {
                                           IconButton(
                                               onPressed: () {
                                                 Navigator.of(context).push(
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            CreatePlaylist(
-                                                                song: allSongs[
-                                                                    widget
-                                                                        .index])));
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        CreatePlaylist(
+                                                            song: allDbSongs[
+                                                                widget.index]),
+                                                  ),
+                                                );
                                               },
                                               icon: const Icon(
                                                 Icons.playlist_add,
@@ -163,11 +190,12 @@ class _NowPlayingState extends State<NowPlaying> {
                                           IconButton(
                                             onPressed: () {},
                                             icon: IconButton(
-                                                onPressed: () {},
-                                                icon:const Icon(Icons.favorite)),
+                                              onPressed: () {},
+                                              icon: const Icon(Icons.favorite),
+                                            ),
                                             color: Colors.white,
                                             iconSize: 30,
-                                          )
+                                          ),
                                         ],
                                       ),
                                       SizedBox(
@@ -231,8 +259,8 @@ class _NowPlayingState extends State<NowPlaying> {
                                             IconButton(
                                               onPressed: () async {
                                                 await audioPlayer.seekBy(
-                                                    const Duration(
-                                                        seconds: -10));
+                                                  const Duration(seconds: -10),
+                                                );
                                               },
                                               icon: const Icon(
                                                 Icons.replay_10,
@@ -264,8 +292,8 @@ class _NowPlayingState extends State<NowPlaying> {
                                             IconButton(
                                               onPressed: () async {
                                                 await audioPlayer.seekBy(
-                                                    const Duration(
-                                                        seconds: 10));
+                                                  const Duration(seconds: 10),
+                                                );
                                               },
                                               icon: const Icon(
                                                 Icons.forward_10,
