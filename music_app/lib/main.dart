@@ -17,6 +17,12 @@ Future<void> main() async {
   Hive.registerAdapter(RecentlyPlayedAdapter());
   openrecentplayedDB();
 
+  Hive.registerAdapter(MostlyPlayedAdapter());
+  openmostlyplayedDB();
+
+  Hive.registerAdapter(PlayListAdapter());
+  openplaylistDB();
+
   runApp(const MyApp());
 }
 

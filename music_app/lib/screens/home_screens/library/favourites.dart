@@ -4,6 +4,8 @@ import 'package:music_app/database/model/song_model.dart';
 import 'package:music_app/screens/home_screens/library/favourite_list.dart';
 import 'package:music_app/screens/widgets/appbar_widget.dart';
 
+import '../../../database/functions/db_func.dart';
+
 class AddToFav extends StatefulWidget {
   const AddToFav({super.key});
 
@@ -12,6 +14,14 @@ class AddToFav extends StatefulWidget {
 }
 
 class _AddToFavState extends State<AddToFav> {
+late List<FavSongs> favitemsongs;
+  @override
+  void initState() {
+   favitemsongs = favsongsdb.values.toList().reversed.toList();
+    // TODO: implement initState
+    super.initState();
+  }
+
   final box = FavBox.getinstance();
   @override
   Widget build(BuildContext context) {
@@ -21,7 +31,7 @@ class _AddToFavState extends State<AddToFav> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          const ScreenAppbarWidget(title: 'Favorites'),
+          ScreenAppbarWidget(title: 'Favorites',songList: favitemsongs,),
           Expanded(
             child: ValueListenableBuilder<Box<FavSongs>>(
                 valueListenable: box.listenable(),

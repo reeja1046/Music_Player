@@ -2,6 +2,10 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:marquee_widget/marquee_widget.dart';
+import 'package:music_app/database/functions/fav_db_functions.dart';
+import 'package:music_app/screens/home_screens/library/favourites.dart';
+import 'package:music_app/screens/playlist/create_playlist.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../database/functions/db_functions.dart';
@@ -9,16 +13,18 @@ import '../../database/model/song_model.dart';
 
 class NowPlaying extends StatefulWidget {
   final int index;
+  final List<dynamic> nowPlayList;
   const NowPlaying({
     super.key,
     required this.index,
+    required this.nowPlayList,
   });
 
   @override
   State<NowPlaying> createState() => _NowPlayingState();
 }
 
-List<Song> allSongs = box.values.toList();
+//List<Song> allSongs = box.values.toList();
 
 AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 ValueNotifier<bool> scrollNotifier = ValueNotifier(true);
@@ -52,8 +58,8 @@ class _NowPlayingState extends State<NowPlaying> {
                     },
                     scrollDirection: Axis.horizontal,
                     children: List.generate(
-                      allSongs.length,
-                      (index) {
+                      widget.nowPlayList.length,
+                      (index0) {
                         return Stack(
                           children: [
                             SizedBox(
@@ -110,10 +116,20 @@ class _NowPlayingState extends State<NowPlaying> {
                                                   .height *
                                               0.01),
                                       const Spacer(),
-                                      Text(
-                                        audioPlayer.getCurrentAudioTitle,
-                                        style: const TextStyle(
-                                            color: Colors.white, fontSize: 20),
+                                      Marquee(
+                                        animationDuration:
+                                            const Duration(milliseconds: 6500),
+                                        directionMarguee:
+                                            DirectionMarguee.oneDirection,
+                                        pauseDuration:
+                                            const Duration(milliseconds: 1000),
+                                        child: Text(
+                                          audioPlayer.getCurrentAudioTitle,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 20,
+                                          ),
+                                        ),
                                       ),
                                       SizedBox(
                                           height: MediaQuery.of(context)
@@ -130,7 +146,15 @@ class _NowPlayingState extends State<NowPlaying> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           IconButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            CreatePlaylist(
+                                                                song: allSongs[
+                                                                    widget
+                                                                        .index])));
+                                              },
                                               icon: const Icon(
                                                 Icons.playlist_add,
                                                 color: Colors.white,
@@ -139,10 +163,8 @@ class _NowPlayingState extends State<NowPlaying> {
                                           IconButton(
                                             onPressed: () {},
                                             icon: IconButton(
-                                                onPressed: () {
-                                                  
-                                                },
-                                                icon: Icon(Icons.favorite)),
+                                                onPressed: () {},
+                                                icon:const Icon(Icons.favorite)),
                                             color: Colors.white,
                                             iconSize: 30,
                                           )
@@ -180,10 +202,6 @@ class _NowPlayingState extends State<NowPlaying> {
                                               },
                                             );
                                           },
-                                          // child: LinearProgressIndicator(
-                                          //   value: progress / 100,
-                                          //   minHeight: 3.0,
-                                          // ),
                                         ),
                                       ),
                                       SizedBox(

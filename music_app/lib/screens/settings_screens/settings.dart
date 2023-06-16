@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:music_app/screens/settings_screens/about_us.dart';
+import 'package:flutter/services.dart';
 import 'package:music_app/screens/settings_screens/privacy_policy.dart';
-import 'package:music_app/screens/settings_screens/support.dart';
-import 'package:music_app/screens/settings_screens/terms_conditions.dart';
 
 class MainSettings extends StatefulWidget {
   const MainSettings({super.key});
@@ -16,11 +14,14 @@ class _MainSettingsState extends State<MainSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: const Color.fromARGB(255, 1, 30, 56),
         centerTitle: true,
-        title:const Text(
+        title: const Text(
           'Settings',
-          style: TextStyle(color: Colors.teal, fontSize: 25),
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+          ),
         ),
       ),
       body: SafeArea(
@@ -29,63 +30,70 @@ class _MainSettingsState extends State<MainSettings> {
           children: [
             ListTile(
               title: const Text(
-                ' Terms & Conditions ',
-                style: TextStyle(color: Colors.teal, fontSize: 18),
-              ),
-              trailing:const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.teal,
-                size: 18,
-              ),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const TermsAndConditions()));
-              },
-            ),
-          
-            ListTile(
-              title: const Text(
                 ' About Us ',
-                style: TextStyle(color: Colors.teal, fontSize: 18),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
-              trailing:const Icon(
+              trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Colors.teal,
+                color: Colors.white,
                 size: 18,
               ),
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) =>const AboutUs()));
-              },
+              onTap: () {},
             ),
             ListTile(
               title: const Text(
                 ' Privacy Policy ',
-                style: TextStyle(color: Colors.teal, fontSize: 18),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               trailing: const Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: Colors.teal,
+                color: Colors.white,
                 size: 18,
               ),
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) =>const PrivacyPolicy()));
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const PrivacyPolicy()));
               },
+            ),
+            // ListTile(
+            //   title: const Text(
+            //     ' Terms & Conditions ',
+            //     style: TextStyle(color: Colors.white, fontSize: 18),
+            //   ),
+            //   trailing: const Icon(
+            //     Icons.arrow_forward_ios_rounded,
+            //     color: Colors.white,
+            //     size: 18,
+            //   ),
+            //   onTap: () {
+            //     Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => const TermsAndConditions()));
+            //   },
+            // ),
+            ListTile(
+              title: const Text(
+                ' Share ',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+              trailing: const Icon(
+                Icons.arrow_forward_ios_rounded,
+                color: Colors.white,
+                size: 18,
+              ),
+              onTap: () {},
             ),
             ListTile(
               title: const Text(
-                ' Support ',
-                style: TextStyle(color: Colors.teal, fontSize: 18),
+                ' Exit ',
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
               trailing: const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.teal,
-                size: 18,
+                Icons.exit_to_app,
+                color: Colors.white,
+                size: 25,
               ),
               onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) =>const Support()));
+                SystemNavigator.pop();
               },
             ),
           ],

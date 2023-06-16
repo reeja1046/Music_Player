@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/screens/widgets/search_screen.dart';
+
+import '../../database/model/song_model.dart';
 
 class ScreenAppbarWidget extends StatelessWidget {
   final String title;
-  const ScreenAppbarWidget({super.key, required this.title});
+  final List<dynamic> songList;
+  const ScreenAppbarWidget({
+    super.key,
+    required this.title,
+    required this.songList,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,16 +24,19 @@ class ScreenAppbarWidget extends StatelessWidget {
           fontSize: 20,
         ),
       ),
-      leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(
-          Icons.arrow_back_ios,
-          size: 30,
-          color: Colors.white,
-        ),
-      ),
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => SearchScreen(
+                    songList: songList,
+                  ),
+                ),
+              );
+            },
+            icon: const Icon(Icons.search))
+      ],
     );
   }
 }

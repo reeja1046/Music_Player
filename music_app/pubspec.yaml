@@ -35,11 +35,14 @@ dependencies:
   enhanced_button: ^0.0.2
   flutter:
     sdk: flutter
+  google_fonts: null
   hive_flutter: ^1.1.0
+  marquee_widget: ^1.2.0
   on_audio_query: ^2.8.1
-  permission_handler: ^10.2.0
+  readmore: ^2.2.0
   super_bottom_navigation_bar: ^1.0.0
-  
+  video_player: ^2.6.1
+
 dev_dependencies:
   build_runner: ^2.3.3
   flutter_lints: ^2.0.0
@@ -59,20 +62,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/Agar_tum.jpeg
-    - assets/images/Kangal.jpeg
-    - assets/images/Malik.jpeg
-    - assets/images/perfect.jpeg
-    - assets/images/pic.jpeg
-    - assets/images/Song_logo1.jpeg
-    - assets/images/Music_app_background.jpeg
-    - assets/images/bg_image1.jpeg
-    - assets/images/bg_image2.jpeg
-    - assets/images/bg_image3.jpeg
-    - assets/images/bg_image4.jpeg
-    - assets/images/bg_image5.jpeg
-    - assets/images/bg_image6.jpeg
-    - assets/images/All_songs_logo.jpeg
+    - assets/images/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

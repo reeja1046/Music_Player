@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:music_app/database/functions/db_functions.dart';
 import 'package:music_app/database/functions/fav_db_functions.dart';
 import 'package:music_app/database/model/song_model.dart';
+import 'package:music_app/screens/playlist/add_to_playlist.dart';
 import 'package:music_app/screens/playlist/create_playlist.dart';
 import 'package:music_app/screens/widgets/main_play_screen.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:on_audio_query/on_audio_query.dart';
+import 'package:marquee_widget/marquee_widget.dart';
 
+// ignore: must_be_immutable
 class MySongs extends StatefulWidget {
   final Song song;
   List<Song> songlist;
@@ -24,6 +28,8 @@ bool istapped = false;
 final box = SongBox.getinstance();
 late List<Song> allSongs;
 List<Audio> convertAudios = [];
+late RecentlyPlayed recentlyPlayedsong;
+late RecentlyPlayed mostlyPlayedsong;
 AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 
 class _MySongsState extends State<MySongs> {
@@ -48,7 +54,27 @@ class _MySongsState extends State<MySongs> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      tileColor: Colors.black,
       onTap: () {
+        RecentlyPlayed recentlySong;
+        recentlySong = RecentlyPlayed(
+            title: allSongs[widget.index].title,
+            artist: allSongs[widget.index].artist,
+            duration: allSongs[widget.index].duration,
+            songurl: allSongs[widget.index].songurl,
+            id: allSongs[widget.index].id);
+
+        MostlyPlayed mostlySong;
+        mostlySong = MostlyPlayed(
+            title: allSongs[widget.index].title,
+            artist: allSongs[widget.index].artist,
+            duration: allSongs[widget.index].duration,
+            songurl: allSongs[widget.index].songurl,
+            id: allSongs[widget.index].id,
+            count: 1);
+        addRecently(recentlySong);
+        addMostly(mostlySong);
+
         audioPlayer.open(
           Playlist(
             audios: convertAudios,
@@ -61,7 +87,7 @@ class _MySongsState extends State<MySongs> {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => NowPlaying(index: widget.index)));
+                builder: (context) => NowPlaying(index: widget.index,nowPlayList: allSongs,)));
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       leading: QueryArtworkWidget(
@@ -81,12 +107,14 @@ class _MySongsState extends State<MySongs> {
           width: MediaQuery.of(context).size.height * 0.07,
         ),
       ),
-      title: Text(
-        allSongs[widget.index].title!,
-        overflow: TextOverflow.ellipsis,
-        maxLines: 1,
-        style: const TextStyle(fontSize: 16, color: Colors.white),
-      ),
+      title: Marquee(
+          animationDuration: const Duration(milliseconds: 6500),
+          directionMarguee: DirectionMarguee.oneDirection,
+          pauseDuration: const Duration(milliseconds: 1000),
+          child: Text(
+            allSongs[widget.index].title!,
+            style: const TextStyle(fontSize: 16, color: Colors.white),
+          )),
       subtitle: Text(allSongs[widget.index].artist.toString(),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
@@ -121,8 +149,8 @@ class _MySongsState extends State<MySongs> {
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                   Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const CreatePlaylist()));
+                                      builder: (context) => CreatePlaylist(
+                                          song: widget.song)));
                                 },
                                 child: const Text('Create New Playlist')),
                           ),
@@ -130,7 +158,10 @@ class _MySongsState extends State<MySongs> {
                             width: double.infinity,
                             child: TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => AddToPlaylists(
+                                            songIndex: widget.index,
+                                          )));
                                 },
                                 child: const Text('Add to existing Playlist')),
                           ),

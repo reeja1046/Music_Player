@@ -1,5 +1,7 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
+import 'package:marquee_widget/marquee_widget.dart';
+import 'package:music_app/database/functions/db_functions.dart';
 import 'package:music_app/database/functions/fav_db_functions.dart';
 import 'package:music_app/database/model/song_model.dart';
 import 'package:music_app/screens/home_screens/home_screen.dart';
@@ -31,6 +33,26 @@ class _FavouritelistState extends State<Favouritelist> {
     return ListTile(
       tileColor: widget.color ?? Colors.black,
       onTap: () {
+
+ RecentlyPlayed recentlySong;
+        recentlySong = RecentlyPlayed(
+            title:   widget.song.title,
+            artist:   widget.song.artist,
+            duration:   widget.song.duration,
+            songurl:   widget.song.songurl,
+            id:   widget.song.id);
+
+        MostlyPlayed mostlySong;
+        mostlySong = MostlyPlayed(
+            title:   widget.song.title,
+            artist:   widget.song.artist,
+            duration:   widget.song.duration,
+            songurl:   widget.song.songurl,
+            id:   widget.song.id,
+            count: 1);
+        addRecently(recentlySong);
+        addMostly(mostlySong);
+
         audioPlayer.stop();
         audioList.clear();
         for (FavSongs item in widget.songlist) {
@@ -41,7 +63,7 @@ class _FavouritelistState extends State<Favouritelist> {
                 id: item.id.toString(),
               )));
         }
-        playingaudio(context, widget.index);
+        playingaudio(context, widget.index,widget.songlist);
       },
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       leading: QueryArtworkWidget(
@@ -52,16 +74,21 @@ class _FavouritelistState extends State<Favouritelist> {
         artworkBorder: BorderRadius.circular(10),
         artworkQuality: FilterQuality.high,
         nullArtworkWidget: Image(
-            height: MediaQuery.of(context).size.height * 0.07,
+          height: MediaQuery.of(context).size.height * 0.07,
           width: MediaQuery.of(context).size.height * 0.07,
           image: const AssetImage(
             'assets/images/All_songs_logo.jpeg',
           ),
         ),
       ),
-      title: Text(
-        widget.song.title!,
-        style: const TextStyle(color: Colors.white),
+      title: Marquee(
+        animationDuration: const Duration(milliseconds: 6500),
+        directionMarguee: DirectionMarguee.oneDirection,
+        pauseDuration: const Duration(milliseconds: 1000),
+        child: Text(
+          widget.song.title!,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       subtitle: Text(widget.song.artist.toString(),
           style: const TextStyle(color: Colors.white)),
@@ -75,10 +102,11 @@ class _FavouritelistState extends State<Favouritelist> {
   }
 }
 
-playingaudio(context, int index) async {
+playingaudio(context, int index,songList) async {
   await audioPlayer.open(Playlist(audios: audioList, startIndex: index));
   Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => NowPlaying(
             index: index,
+            nowPlayList: songList,
           )));
 }

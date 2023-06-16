@@ -6,9 +6,7 @@ import 'package:music_app/screens/home_screens/library/library_buttons.dart';
 import 'package:music_app/screens/home_screens/library/mostly_played.dart';
 import 'package:music_app/screens/home_screens/my_songs.dart';
 import 'package:music_app/screens/home_screens/library/recently_played.dart';
-// import 'package:music_app/screens/home_screens/library/buttons.dart';
-// import 'package:music_app/screens/library/buttons.dart';
-// import 'package:music_app/screens/library/mostly_played.dart';
+import 'package:music_app/screens/widgets/search_screen.dart';
 
 List<Audio> audioList = [];
 
@@ -34,21 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 1, 30, 56),
           centerTitle: true,
-          title: ShaderMask(
-            shaderCallback: (bounds) => const LinearGradient(
-              colors: [
-                Color.fromARGB(255, 119, 193, 253),
-                Color.fromARGB(255, 0, 83, 125)
-              ],
-            ).createShader(bounds),
-            child: const Text(
-              'SERAPHINE',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 30,
-                color: Colors.white,
-              ),
-            ),
+          title: const Text(
+            'ChillaX',
+            style: TextStyle(fontSize: 35),
           )),
       body: SafeArea(
         child: Padding(
@@ -60,27 +46,53 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: MediaQuery.of(context).size.height * 0.03),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 LibraryButtons(
-                    title: 'Recently Played',
-                    onPressed: const Recentlyplayedscreen()),
+                  title: 'Recently Played',
+                  onPressed: const RecentlyPlayedScreen(),
+                ),
                 SizedBox(width: MediaQuery.of(context).size.width * 0.05),
                 LibraryButtons(
-                    title: 'Mostly Played', onPressed: const MostlyPlayed()),
+                    title: 'Mostly Played',
+                    onPressed: const MostlyPlayedScreen()),
               ]),
               SizedBox(height: MediaQuery.of(context).size.height * 0.05),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03),
               LibraryButtons(title: 'Favorites', onPressed: const AddToFav()),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              subtitle(name: 'Your Collections'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  subtitle(name: 'Your Collections'),
+                  IconButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => SearchScreen(
+                              songList: allSongs,
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.search,
+                        color: Colors.white,
+                        size: 25,
+                      ))
+                ],
+              ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
-              ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) => MySongs(
-                        index: index,
-                        song: allSongs[index],
-                        songlist: [],
-                      ),
-                  itemCount: allSongs.length),
+              ListView.separated(
+                physics: const NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) => MySongs(
+                  index: index,
+                  song: allSongs[index],
+                  songlist: const [],
+                ),
+                separatorBuilder: (context, index) => const Divider(
+                  height: 10,
+                ),
+                itemCount: allSongs.length,
+              ),
             ]),
           ),
         ),

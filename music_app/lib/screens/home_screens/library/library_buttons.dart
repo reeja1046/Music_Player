@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class LibraryButtons extends StatefulWidget {
+class LibraryButtons extends StatelessWidget {
   String title;
   Widget onPressed;
 
   LibraryButtons({super.key, required this.title, required this.onPressed});
 
   @override
-  State<LibraryButtons> createState() => _MainButtonState();
-}
-
-class _MainButtonState extends State<LibraryButtons> {
-  @override
   Widget build(BuildContext context) {
     return GestureDetector(
         onTap: () {
           Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => widget.onPressed));
+              .push(MaterialPageRoute(builder: (context) => onPressed));
         },
         child: Container(
           height: MediaQuery.of(context).size.height * 0.15,
@@ -32,12 +27,12 @@ class _MainButtonState extends State<LibraryButtons> {
                 ),
               ],
               borderRadius: BorderRadius.circular(20),
-              image:const DecorationImage(
+              image: const DecorationImage(
                   image: AssetImage('assets/images/bg_image4.jpeg'),
                   fit: BoxFit.cover)),
           alignment: Alignment.center,
           child: Text(
-            widget.title,
+            title,
             style: const TextStyle(
                 fontSize: 18, fontStyle: FontStyle.italic, color: Colors.white),
           ),

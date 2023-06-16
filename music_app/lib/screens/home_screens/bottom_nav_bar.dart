@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:music_app/screens/home_screens/home_screen.dart';
 import 'package:music_app/screens/playlist/playlist.dart';
-import 'package:music_app/screens/widgets/search_screen.dart';
 import 'package:music_app/screens/settings_screens/settings.dart';
 
 import 'package:super_bottom_navigation_bar/super_bottom_navigation_bar.dart';
@@ -17,10 +16,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int selectedIndex = 0;
 
   final _pages = [
-    HomeScreen(),
-    SearchScreen(),
-    Playlist(),
-    MainSettings(),
+    const HomeScreen(),
+    // SearchScreen(),
+    const AllPlaylist(),
+    const MainSettings(),
   ];
 
   @override
@@ -32,14 +31,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
           SuperBottomNavigationBarItem(
               unSelectedIcon: Icons.home_outlined,
               selectedIcon: Icons.home,
-              splashColor: Colors.blue,
-              borderBottomColor: Colors.blue,
-              backgroundShadowColor: Colors.white,
-              selectedIconColor: Colors.blue,
-              unSelectedIconColor: Colors.grey),
-          SuperBottomNavigationBarItem(
-              unSelectedIcon: Icons.search,
-              selectedIcon: Icons.search,
               splashColor: Colors.blue,
               borderBottomColor: Colors.blue,
               backgroundShadowColor: Colors.white,

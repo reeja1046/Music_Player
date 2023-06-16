@@ -20,39 +20,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(
-              Icons.music_note_rounded,
-              color: Colors.orange,
-              size: 80,
-            ),
-            Text(
-              'SERAPHINE',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
-              ),
-            ),
-            Text(
-              'Let music be your soul',
-              style: TextStyle(
-                  fontSize: 20,
-                  color: Colors.orange,
-                  fontWeight: FontWeight.w300),
-            )
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color.fromARGB(255, 18, 25, 34),
+          image: DecorationImage(
+            image: AssetImage('assets/images/Chillax.png'),
+            fit: BoxFit.fitWidth,
+          ),
         ),
       ),
     );
   }
 
   gotomain() {
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const BottomNavBar()));
     });

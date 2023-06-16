@@ -34,6 +34,32 @@ Future<void> requestPermission() async {
 }
 
 addRecently(RecentlyPlayed song) {
-  List recentList = recentplayeddb.values.toList();
-  
+  int index;
+  List<RecentlyPlayed> recentList = recentplayeddb.values.toList();
+  bool isnotavailable = recentList.where((element) {
+    return element.title == song.title;
+  }).isEmpty;
+  if (isnotavailable == true) {
+    recentplayeddb.add(song);
+  } else {
+    index = recentList.indexWhere((element) => element.title == song.title);
+    recentplayeddb.deleteAt(index);
+    recentplayeddb.add(song);
+  }
+}
+
+addMostly(MostlyPlayed song) {
+  List<MostlyPlayed> mostlyList = mostlyplayeddb.values.toList();
+  bool isNotPresent = mostlyList.where((element) {
+    return element.title == song.title;
+  }).isEmpty;
+  if (isNotPresent == true) {
+    mostlyplayeddb.add(song);
+  } else {
+    int index = mostlyList.indexWhere((element) => element.title == song.title);
+    int count = mostlyList[index].count!;
+    song.count = (count + 1);
+    mostlyplayeddb.deleteAt(index);
+    mostlyplayeddb.add(song);
+  }
 }
