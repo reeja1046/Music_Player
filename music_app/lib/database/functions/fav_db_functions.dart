@@ -26,8 +26,8 @@ addToFavorite(int? id, BuildContext context) {
       dismissDirection: DismissDirection.down,
       behavior: SnackBarBehavior.floating,
       elevation: 70,
-      duration: Duration(seconds: 3),
-      backgroundColor: Colors.white,
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.lightGreenAccent,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   } else {
@@ -42,8 +42,8 @@ addToFavorite(int? id, BuildContext context) {
       dismissDirection: DismissDirection.down,
       behavior: SnackBarBehavior.floating,
       elevation: 70,
-      duration: Duration(seconds: 3),
-      backgroundColor: Colors.white,
+      duration: Duration(seconds: 1),
+      backgroundColor: Colors.redAccent,
     );
     ScaffoldMessenger.of(context).showSnackBar(snackbar);
   }
@@ -60,7 +60,7 @@ bool isalready(id) {
   }
 }
 
-removeFav(int? songid) async {
+removeFav(int? songid, BuildContext context) async {
   final box = SongBox.getinstance();
 
   final boxremove = FavBox.getinstance();
@@ -68,8 +68,21 @@ removeFav(int? songid) async {
   List<Song> dbsongs = box.values.toList();
   int currentindex = favsong.indexWhere((element) => element.id == songid);
   await favsongsdb.deleteAt(currentindex);
+  const snackbar = SnackBar(
+    content: Text(
+      'Removed from favourites',
+      style: TextStyle(
+          color: Color.fromARGB(255, 1, 30, 56), fontWeight: FontWeight.bold),
+    ),
+    dismissDirection: DismissDirection.down,
+    behavior: SnackBarBehavior.floating,
+    elevation: 70,
+    duration: Duration(seconds: 1),
+    backgroundColor: Colors.redAccent,
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackbar);
 }
 
-deletefav(int index, BuildContext context) async {
-  await favsongsdb.deleteAt(favsongsdb.length - index - 1);
-}
+// deletefav(int index, BuildContext context) async {
+//   await favsongsdb.deleteAt(favsongsdb.length - index - 1);
+// }

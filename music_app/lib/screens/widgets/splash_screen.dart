@@ -11,8 +11,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   @override
-  void initState() {
-    requestPermission();
+  void initState() async {
+    await requestPermission();
     gotomain();
     super.initState();
   }

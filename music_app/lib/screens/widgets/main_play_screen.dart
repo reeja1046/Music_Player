@@ -3,8 +3,8 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:marquee_widget/marquee_widget.dart';
+import 'package:music_app/database/functions/fav_db_functions.dart';
 import 'package:music_app/screens/playlist/create_playlist.dart';
-import 'package:music_app/screens/widgets/appbar_widget.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import '../../database/model/song_model.dart';
 
@@ -21,8 +21,6 @@ class NowPlaying extends StatefulWidget {
   State<NowPlaying> createState() => _NowPlayingState();
 }
 
-//List<Song> allSongs = box.values.toList();
-
 AssetsAudioPlayer audioPlayer = AssetsAudioPlayer.withId('0');
 ValueNotifier<bool> scrollNotifier = ValueNotifier(true);
 
@@ -30,6 +28,7 @@ class _NowPlayingState extends State<NowPlaying> {
   final box = SongBox.getinstance();
   late List<Song> allDbSongs;
   double progress = 0.0;
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -188,12 +187,39 @@ class _NowPlayingState extends State<NowPlaying> {
                                                 size: 35,
                                               )),
                                           IconButton(
-                                            onPressed: () {},
-                                            icon: IconButton(
-                                              onPressed: () {},
-                                              icon: const Icon(Icons.favorite),
-                                            ),
-                                            color: Colors.white,
+                                            onPressed: () async {
+                                              (isalready(
+                                                      allDbSongs[widget.index]
+                                                          .id))
+                                                  ? await removeFav(
+                                                      allDbSongs[widget.index]
+                                                          .id,
+                                                      context)
+                                                  : await addToFavorite(
+                                                      allDbSongs[widget.index]
+                                                          .id,
+                                                      context);
+                                              setState(() {});
+                                            },
+                                            icon: (isalready(
+                                                    allDbSongs[widget.index]
+                                                        .id))
+                                                ? const Icon(
+                                                    Icons.favorite_border,
+                                                    color: Colors.red,
+                                                  )
+                                                : const Icon(
+                                                    Icons.favorite_border,
+                                                    color: Colors.white,
+                                                  ),
+                                            // Icon(
+                                            //   isFavorite
+                                            //       ? Icons.favorite
+                                            //       : Icons.favorite_border,
+                                            //   color: isFavorite
+                                            //       ? Colors.red
+                                            //       : Colors.white,
+                                            // ),
                                             iconSize: 30,
                                           ),
                                         ],
